@@ -1,0 +1,7 @@
+## YAML Template.
+---
+ipap_calculator:
+    resource: "@IpapCalculatorBundle/Controller/"
+    type:     annotation
+    prefix:   /
+    

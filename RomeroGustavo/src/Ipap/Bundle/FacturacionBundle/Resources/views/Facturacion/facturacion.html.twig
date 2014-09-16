@@ -1,0 +1,27 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}IpapFacturacionBundle:Facturacion:facturacion{% endblock %}
+
+{% block body %}
+    <h1>Facturaci&oacuten </h1>
+    <table>
+        <thead>
+            <tr>
+                <td>Encabezado A</td>
+                <td>Encabezado B</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <a href="{{ path('contacto') }}">Contacto</a>
+                </td>
+                <td>
+                    <a href="/app_dev.php/facturacion/contacto">Listado</a>
+                </td>
+            </tr>
+                
+        </tbody>
+    </table>
+    {{ parent() }}
+{% endblock %}

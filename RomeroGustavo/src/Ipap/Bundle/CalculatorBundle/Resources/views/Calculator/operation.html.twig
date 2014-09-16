@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}IpapCalculatorBundle:Calculator:operation{% endblock %}
+{% block body %}
+    
+<h1>Calculadora básica:</h1>
+
+<label for="ab">Valores pasados como par&aacutemetros</label><br>
+<label for="a">VALOR A</label>
+<input type="text" name="a" id="a" value={{varA}}><br>
+<label for="b">VALOR B</label>
+<input type="text" name="b" id="b" value={{varB}}><br>
+
+<div>
+</div>
+El resultado de la operaci&oacute;n {{operacion}}<br> 
+{{varA}} {{operando}} {{varB}} es:  {{resultado}}<br>
+
+<br>
+<br>
+ {%set frutas=['manzana','naranaja','citricos']%}
+ {% for i in 0..10%}
+     {{i~" "~cycle(frutas,i)}}
+     <br>
+ {%endfor%}
+ 
+{% endblock %}
+

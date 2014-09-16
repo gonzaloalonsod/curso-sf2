@@ -1,0 +1,10 @@
+ipap_facturacion:
+    resource: "@IpapFacturacionBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ipap_calculator:
+    resource: "@IpapCalculatorBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

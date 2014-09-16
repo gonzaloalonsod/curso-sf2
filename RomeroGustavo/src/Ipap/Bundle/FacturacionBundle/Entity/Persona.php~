@@ -1,0 +1,84 @@
+<?php
+
+namespace Ipap\Bundle\FacturacionBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Persona
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Persona
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nroDocumento", type="integer")
+     */
+    private $nroDocumento;
+    
+    /**
+     *
+     * @var type 
+     * @ORM\Column(name="tipoDocumento", type="integer")
+     */
+    private $tipoDocumento;
+    
+    /**
+     *
+     * @var type 
+     * @ORM\Column(name="apellidos", type="string")
+     */
+    private $apellidos;
+    
+    /**
+     *
+     * @var type 
+     * @ORM\Column(name="nombres", type="string", length=100)
+     */
+    private $nombres;
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nroDocumento
+     *
+     * @param integer $nroDocumento
+     * @return Persona
+     */
+    public function setNroDocumento($nroDocumento)
+    {
+        $this->nroDocumento = $nroDocumento;
+
+        return $this;
+    }
+
+    /**
+     * Get nroDocumento
+     *
+     * @return integer 
+     */
+    public function getNroDocumento()
+    {
+        return $this->nroDocumento;
+    }
+}

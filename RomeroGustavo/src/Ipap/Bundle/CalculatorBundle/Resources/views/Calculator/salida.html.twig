@@ -1,0 +1,34 @@
+{# empty Twig template #}
+{% extends '::base.html.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    {% stylesheets '@IpapCalculatorBundle/Resources/public/css/estilos.css' filter='cssrewrite' %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />   
+    {% endstylesheets %}       
+{% endblock %}
+
+{% block title %}
+    Probando Less Css en Symfony 2
+{% endblock %}
+
+{% block body %}
+{#Incorporando imágenes a nuestro twig#}
+<img src="{{ asset('bundles/ipapfacturacion/images/pajaros_bailando.gif') }}"/>    
+    <h1>Prueba de PreCompilador LESS CSS</h1>
+ 
+    <ol>
+	<li class="hyperlink">UNO </li>
+	<li>Dos</li>
+	<li>Tres</li>
+    </ol>
+    
+    <div class='div'>
+        <h1 class='centrar'>Algo aqu&iacute</h1>
+    </div>
+    <br>
+    <br>
+    <label for="textbox">Texto:</label>
+    <input type="text" id="textbox" placeholder="introduce un texto" />
+{% endblock %}
+

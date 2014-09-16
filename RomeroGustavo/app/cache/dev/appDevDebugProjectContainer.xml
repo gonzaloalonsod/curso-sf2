@@ -16,6 +16,8 @@
       <parameter key="AsseticBundle">Symfony\Bundle\AsseticBundle\AsseticBundle</parameter>
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
+      <parameter key="IpapCalculatorBundle">Ipap\Bundle\CalculatorBundle\IpapCalculatorBundle</parameter>
+      <parameter key="IpapFacturacionBundle">Ipap\Bundle\FacturacionBundle\IpapFacturacionBundle</parameter>
       <parameter key="AcmeDemoBundle">Acme\DemoBundle\AcmeDemoBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -25,8 +27,8 @@
     <parameter key="kernel.container_class">appDevDebugProjectContainer</parameter>
     <parameter key="database_driver">pdo_mysql</parameter>
     <parameter key="database_host">127.0.0.1</parameter>
-    <parameter key="database_port">null</parameter>
-    <parameter key="database_name">symfony</parameter>
+    <parameter key="database_port">3306</parameter>
+    <parameter key="database_name">ipapfacturacion</parameter>
     <parameter key="database_user">root</parameter>
     <parameter key="database_password">null</parameter>
     <parameter key="mailer_transport">smtp</parameter>
@@ -384,7 +386,9 @@
     <parameter key="assetic.value_supplier.class">Symfony\Bundle\AsseticBundle\DefaultValueSupplier</parameter>
     <parameter key="assetic.node.paths" type="collection"/>
     <parameter key="assetic.cache_dir">C:/xampp/htdocs/curso-sf2/RomeroGustavo/app/cache/dev/assetic</parameter>
-    <parameter key="assetic.bundles" type="collection"/>
+    <parameter key="assetic.bundles" type="collection">
+      <parameter>IpapCalculatorBundle</parameter>
+    </parameter>
     <parameter key="assetic.twig_extension.class">Symfony\Bundle\AsseticBundle\Twig\AsseticExtension</parameter>
     <parameter key="assetic.twig_formula_loader.class">Assetic\Extension\Twig\TwigFormulaLoader</parameter>
     <parameter key="assetic.helper.dynamic.class">Symfony\Bundle\AsseticBundle\Templating\DynamicAsseticHelper</parameter>
@@ -1989,7 +1993,9 @@
             <argument type="service" id="templating.name_parser"/>
             <argument>true</argument>
             <argument type="collection"/>
-            <argument type="collection"/>
+            <argument type="collection">
+              <argument>IpapCalculatorBundle</argument>
+            </argument>
             <argument type="service" id="assetic.value_supplier.default" on-invalid="null"/>
           </service>
         </argument>
@@ -2079,6 +2085,33 @@
       </argument>
       <call method="addResource">
         <argument type="service">
+          <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\CoalescingDirectoryResource" public="false">
+            <tag name="assetic.templating.twig"/>
+            <tag name="assetic.formula_resource" loader="twig"/>
+            <argument type="collection">
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>IpapCalculatorBundle</argument>
+                  <argument>C:/xampp/htdocs/curso-sf2/RomeroGustavo/app/Resources/IpapCalculatorBundle/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+              <argument type="service">
+                <service class="%assetic.directory_resource.class%" public="false">
+                  <argument type="service" id="templating.loader"/>
+                  <argument>IpapCalculatorBundle</argument>
+                  <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\src\Ipap\Bundle\CalculatorBundle/Resources/views</argument>
+                  <argument>/\.[^.]+\.twig$/</argument>
+                </service>
+              </argument>
+            </argument>
+          </service>
+        </argument>
+        <argument>twig</argument>
+      </call>
+      <call method="addResource">
+        <argument type="service">
           <service class="Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource" public="false">
             <tag name="assetic.templating.twig"/>
             <tag name="assetic.formula_resource" loader="twig"/>
@@ -2148,8 +2181,8 @@
       <argument type="collection">
         <argument key="driver">pdo_mysql</argument>
         <argument key="host">127.0.0.1</argument>
-        <argument key="port">null</argument>
-        <argument key="dbname">symfony</argument>
+        <argument key="port">3306</argument>
+        <argument key="dbname">ipapfacturacion</argument>
         <argument key="user">root</argument>
         <argument key="password">null</argument>
         <argument key="charset">UTF8</argument>
@@ -2209,7 +2242,10 @@
       <argument type="service">
         <service class="Doctrine\ORM\Configuration" public="false">
           <call method="setEntityNamespaces">
-            <argument type="collection"/>
+            <argument type="collection">
+              <argument key="IpapCalculatorBundle">Ipap\Bundle\CalculatorBundle\Entity</argument>
+              <argument key="IpapFacturacionBundle">Ipap\Bundle\FacturacionBundle\Entity</argument>
+            </argument>
           </call>
           <call method="setMetadataCacheImpl">
             <argument type="service">
@@ -2240,7 +2276,32 @@
           </call>
           <call method="setMetadataDriverImpl">
             <argument type="service">
-              <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false"/>
+              <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false">
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\src\Ipap\Bundle\CalculatorBundle\Entity</argument>
+                        <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\src\Ipap\Bundle\FacturacionBundle\Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>Ipap\Bundle\CalculatorBundle\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\src\Ipap\Bundle\CalculatorBundle\Entity</argument>
+                        <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\src\Ipap\Bundle\FacturacionBundle\Entity</argument>
+                      </argument>
+                    </service>
+                  </argument>
+                  <argument>Ipap\Bundle\FacturacionBundle\Entity</argument>
+                </call>
+              </service>
             </argument>
           </call>
           <call method="setProxyDir">
@@ -2630,6 +2691,14 @@
       <call method="addPath">
         <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\vendor\doctrine\doctrine-bundle\Doctrine\Bundle\DoctrineBundle/Resources/views</argument>
         <argument>Doctrine</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\src\Ipap\Bundle\CalculatorBundle/Resources/views</argument>
+        <argument>IpapCalculator</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\src\Ipap\Bundle\FacturacionBundle/Resources/views</argument>
+        <argument>IpapFacturacion</argument>
       </call>
       <call method="addPath">
         <argument>C:\xampp\htdocs\curso-sf2\RomeroGustavo\src\Acme\DemoBundle/Resources/views</argument>

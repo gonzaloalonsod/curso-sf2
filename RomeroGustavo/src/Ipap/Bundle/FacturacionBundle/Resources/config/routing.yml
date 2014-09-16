@@ -1,0 +1,6 @@
+## YAML Template.
+---
+ipap_facturacion:
+    resource: "@IpapFacturacionBundle/Controller/"
+    type:     annotation
+    prefix:   /
